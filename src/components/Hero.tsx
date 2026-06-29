@@ -52,7 +52,7 @@ export default function Hero() {
         >
           <motion.div variants={itemVariants}>
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-light text-primary font-semibold text-sm">
-              🍽 QR-First Restaurant Platform
+              QR-First Restaurant Platform
             </span>
           </motion.div>
 

@@ -47,9 +47,9 @@ export default function Contact() {
 
             <div className="space-y-8">
               {[
-                { icon: Phone, label: "Call Us", val: "+91 98765 43210" },
-                { icon: Mail, label: "Email", val: "hello@dineo.in" },
-                { icon: MapPin, label: "Visit Us", val: "Indiranagar, Bangalore, KA" },
+                { icon: Phone, label: "Call Us", val: "+91 7453031663" },
+                { icon: Mail, label: "Email", val: "dineo.india@gmail.com" },
+                { icon: MapPin, label: "Visit Us", val: "Delhi-NCR, India" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm border border-border">

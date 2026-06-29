@@ -103,7 +103,7 @@ export default function Pricing() {
                 className="mt-8 p-4 bg-primary-light border border-primary/20 rounded-2xl inline-block"
               >
                 <p className="text-primary-dark font-bold text-sm">
-                  💰 Restaurants on yearly plans save up to ₹7,489/year — that's 2 months completely free.
+                  Restaurants on yearly plans save up to ₹7,489/year — that's 2 months completely free.
                 </p>
               </motion.div>
             )}
