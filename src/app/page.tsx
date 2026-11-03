@@ -7,10 +7,11 @@ import InteractiveDemo from "@/components/InteractiveDemo";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Reveal from "@/components/Reveal";
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-[100svh]">
       <Navbar />
       <Hero />
       <SocialProof />
@@ -20,6 +21,7 @@ export default function Home() {
       <Pricing />
       <Contact />
       <Footer />
+      <Reveal />
     </main>
   );
 }

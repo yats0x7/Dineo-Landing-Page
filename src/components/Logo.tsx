@@ -12,11 +12,13 @@ export function LogoMark({ className = "w-8 h-8" }: { className?: string }) {
   );
 }
 
-export default function Logo() {
+export default function Logo({ tone = "ink" }: { tone?: "ink" | "light" }) {
   return (
     <>
       <LogoMark />
-      <span className="text-2xl font-bold text-primary">Dineo</span>
+      <span className={`text-[1.625rem] font-bold tracking-[-0.03em] ${tone === "ink" ? "text-ink" : "text-ground"}`}>
+        Dineo
+      </span>
     </>
   );
 }

@@ -1,95 +1,52 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { QrCode, Smartphone, ChefHat, ArrowRight } from "lucide-react";
-
-const steps = [
+// The order's own journey, drawn as one bar: setting up is the long part and
+// happens once; after that each order is a minute of the guest's time and a
+// second to reach the kitchen. Widths follow that, with a floor so the short
+// stages stay readable.
+const stages = [
   {
-    number: "01",
-    title: "Print Your Table QR Codes",
-    description:
-      "Generate QR codes for each table from your dashboard. Print and place them — that's it.",
-    icon: QrCode,
+    time: "One afternoon, once",
+    text: "First, add your menu and print a QR code for each table.",
+    grow: 5,
+    tone: "bg-tile text-ink",
   },
   {
-    number: "02",
-    title: "Customers Scan & Order",
-    description:
-      "Customers scan with any camera app, browse your menu, add items, and place orders in seconds.",
-    icon: Smartphone,
+    time: "Under a minute",
+    text: "Then guests scan, pick their dishes and place the order.",
+    grow: 2.4,
+    tone: "bg-ink text-ground",
   },
   {
-    number: "03",
-    title: "Kitchen Gets It Instantly",
-    description:
-      "Orders appear on your Chef Dashboard in real time. Accept, prepare, and mark ready — all from one screen.",
-    icon: ChefHat,
+    time: "About a second",
+    text: "The order lands on the kitchen screen with its table number.",
+    grow: 2,
+    tone: "bg-tile-soft text-ink",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 bg-background w-full">
-      <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
-          >
-            Up and running in 3 steps
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-text-secondary"
-          >
-            From zero to fully digital in under 10 minutes.
-          </motion.p>
-        </div>
+    <section id="how-it-works" className="w-full py-28 md:py-40">
+      <div className="frame">
+        <h2 data-reveal="rise" className="text-head font-semibold max-w-[16ch] text-balance">
+          Set it up once. Then it runs.
+        </h2>
 
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12">
-          {steps.map((step, index) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="relative p-8 rounded-2xl bg-white border border-border shadow-sm group hover:shadow-premium transition-all duration-300"
+        <ol data-ui className="mt-16 flex flex-col md:flex-row gap-[6px]" data-reveal>
+          {stages.map((s) => (
+            <li
+              key={s.time}
+              className="flex flex-col"
+              style={{ flexGrow: s.grow, flexBasis: 0, minWidth: "12%" }}
             >
-              <div className="text-6xl font-black text-primary-light absolute -top-6 left-8 -z-10 group-hover:-translate-y-2 transition-transform duration-300">
-                {step.number}
+              <div className={`${s.tone} rounded-tile h-[110px] md:h-[22vh] md:min-h-[160px] p-5 md:p-6`}>
+                <p className="text-lead font-semibold tracking-[-0.02em]">
+                  {s.time}
+                </p>
               </div>
-              
-              <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center text-white mb-6 shadow-lg shadow-primary/20">
-                <step.icon size={28} />
-              </div>
-
-              <h3 className="text-2xl font-bold text-text-primary mb-4">
-                {step.title}
-              </h3>
-              <p className="text-text-secondary leading-relaxed">
-                {step.description}
-              </p>
-
-              {index < steps.length - 1 && (
-                <div className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-20">
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-primary/30"
-                  >
-                    <ArrowRight size={32} />
-                  </motion.div>
-                </div>
-              )}
-            </motion.div>
+              <p className="mt-4 text-body text-ink max-w-[24ch] md:pr-4">{s.text}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
