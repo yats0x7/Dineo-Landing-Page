@@ -14,10 +14,6 @@ const columns = [
     ],
   },
   {
-    title: "For your staff",
-    links: [{ name: "Kitchen login", href: "https://admin.dineo.co.in/login" }],
-  },
-  {
     title: "Legal",
     links: [
       { name: "Privacy", href: `${LEGAL}/privacy` },
@@ -58,6 +54,9 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-4 md:col-start-9">
             <h3 className="text-small text-night-muted">Talk to us</h3>
             <p className="mt-4 text-body">
+              <a href="https://wa.me/917453031663" target="_blank" rel="noopener noreferrer" className="hover:text-sun transition-colors">WhatsApp us</a>
+            </p>
+            <p className="mt-2.5 text-body">
               <a href="mailto:dineo.india@gmail.com" className="hover:text-sun transition-colors">dineo.india@gmail.com</a>
             </p>
             <p className="mt-2.5 text-body">

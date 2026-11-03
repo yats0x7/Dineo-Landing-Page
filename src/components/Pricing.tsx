@@ -123,7 +123,7 @@ export default function Pricing() {
             href="#contact"
             className="press inline-block bg-action hover:bg-action-dark text-white px-8 py-4 rounded-tile text-body font-semibold"
           >
-            Start your free trial
+            Book a free demo
           </Link>
         </div>
       </div>
