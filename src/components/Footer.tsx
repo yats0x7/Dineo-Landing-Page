@@ -14,10 +14,6 @@ const columns = [
     ],
   },
   {
-    title: "For your staff",
-    links: [{ name: "Kitchen login", href: "https://admin.dineo.co.in/login" }],
-  },
-  {
     title: "Legal",
     links: [
       { name: "Privacy", href: `${LEGAL}/privacy` },
