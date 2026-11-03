@@ -27,6 +27,27 @@ const order = menu.filter((m) => m.qty > 0);
 const total = order.reduce((s, m) => s + m.price * m.qty, 0);
 const steps: Exclude<Stage, "cart">[] = ["received", "pending", "preparing", "ready"];
 
+// What to do next, shown beside the kitchen ticket so the visitor always
+// knows where the next tap is and where its result appears.
+const hint: Record<Stage, string> = {
+  cart: "No orders yet. Place one on the guest's phone.",
+  received: "Order in. Tap Accept order and watch the guest's phone.",
+  pending: "Accepted. Now start cooking.",
+  preparing: "Mark it ready. The guest sees it the same second.",
+  ready: "That's the whole loop. The guest knew at every step.",
+};
+
+// Points left at the phone on wide screens, up at it on phones.
+function Pointer() {
+  return (
+    <span aria-hidden="true" className="inline-flex shrink-0 rotate-90 md:rotate-0">
+      <svg width="34" height="20" viewBox="0 0 34 20" fill="none" className="nudge">
+        <path d="M33 10H3M3 10l8-8M3 10l8 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+}
+
 export default function InteractiveDemo() {
   const [stage, setStage] = useState<Stage>("cart");
   const at = stage === "cart" ? -1 : steps.indexOf(stage);
@@ -78,16 +99,24 @@ export default function InteractiveDemo() {
                       <span className="tabular">{rupees(total)}</span>
                     </div>
                   </div>
+                  <div aria-hidden="true" className="flex flex-col items-center gap-1.5 text-ink">
+                    <span className="rounded-[8px] bg-ink text-white text-[13px] font-semibold px-3 py-1.5">
+                      Start here: you&apos;re the guest
+                    </span>
+                    <svg width="16" height="22" viewBox="0 0 16 22" fill="none" className="bob">
+                      <path d="M8 1v19M8 20l-6-6M8 20l6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
                   <button
                     onClick={() => setStage("received")}
-                    className="press m-4 rounded-[14px] bg-[#b45309] hover:bg-[#92400e] text-white py-4 text-[15px] font-bold"
+                    className="press cue m-4 mt-2 rounded-[14px] bg-[#b45309] hover:bg-[#92400e] text-white py-4 text-[15px] font-bold"
                   >
                     Place order · {rupees(total)}
                   </button>
                 </>
               ) : (
                 <div className="flex-1 px-5 flex flex-col" aria-live="polite">
-                  <div className="rounded-[16px] bg-[#fdf1e1] p-4">
+                  <div key={stage} className="flash rounded-[16px] bg-[#fdf1e1] p-4">
                     <p className="text-[19px] font-bold text-[#92400e]">{guest[stage].label}</p>
                     <p className="mt-1 text-[13px] text-[#5c5047]">{guest[stage].text}</p>
                   </div>
@@ -113,10 +142,10 @@ export default function InteractiveDemo() {
             </div>
             {stage !== "cart" && (
               <div className="relative md:hidden w-[300px] flex items-center gap-3 rounded-[16px] bg-night px-4 py-3 text-ground">
-                <span className="text-small text-night-muted flex-1">Kitchen</span>
+                <span className="text-small text-night-muted flex-1">Now you&apos;re the kitchen</span>
                 <button
                   onClick={() => setStage(kitchen[stage].next)}
-                  className="press rounded-[10px] bg-ground text-ink px-4 py-2.5 text-small font-semibold"
+                  className={`press rounded-[10px] bg-ground text-ink px-4 py-2.5 text-small font-semibold ${stage !== "ready" ? "cue" : ""}`}
                 >
                   {kitchen[stage].action}
                 </button>
@@ -143,13 +172,17 @@ export default function InteractiveDemo() {
               <source src="/media/dosa-tawa.mp4" type="video/mp4" />
             </video>
             <div aria-hidden="true" className="absolute inset-0 bg-night/70" />
-            <p className="relative text-body text-ground">Kitchen screen</p>
+            <p className="relative flex items-center gap-2.5 text-body text-ground">
+              <span aria-hidden="true" className="live-dot" />
+              Kitchen screen, live
+            </p>
             {stage === "cart" ? (
-              <p className="relative mt-4 text-lead text-ground max-w-[22ch]">
-                No orders yet. Place one on the guest&apos;s phone.
+              <p className="relative mt-4 flex items-start gap-4 text-lead text-ground max-w-[24ch]">
+                <span className="mt-[0.35em] text-sun"><Pointer /></span>
+                {hint.cart}
               </p>
             ) : (
-              <div data-ui className="relative mt-4 w-full max-w-[420px] bg-white rounded-[18px] p-6 text-ink">
+              <div data-ui className="ticket-in relative mt-4 w-full max-w-[420px] bg-white rounded-[18px] p-6 text-ink">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-[13px] font-semibold text-[#6b5d52]">#0065 · just now</p>
@@ -172,12 +205,18 @@ export default function InteractiveDemo() {
                   className={`press mt-6 w-full rounded-[12px] py-3.5 text-[15px] font-bold ${
                     stage === "ready"
                       ? "bg-[#f1ece6] text-[#1c1410] hover:bg-[#e8e3dc]"
-                      : "bg-[#1c1410] text-white hover:bg-[#b45309]"
+                      : "cue bg-[#1c1410] text-white hover:bg-[#b45309]"
                   }`}
                 >
                   {kitchen[stage].action}
                 </button>
               </div>
+            )}
+            {stage !== "cart" && (
+              <p key={stage} className="flash relative mt-5 hidden md:flex items-center gap-3 text-body text-ground max-w-[420px]">
+                <span className="text-sun"><Pointer /></span>
+                {hint[stage]}
+              </p>
             )}
           </div>
         </div>
