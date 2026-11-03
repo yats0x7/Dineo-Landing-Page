@@ -3,22 +3,21 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
-const stats = [
+const stats: { label: string; value: number; suffix: string; description?: string }[] = [
   {
     label: "Restaurants",
-    value: 500,
+    value: 10,
     suffix: "+",
-    description: "Across 20+ cities",
   },
   {
     label: "Orders Processed",
-    value: 50,
-    suffix: "L+",
+    value: 5,
+    suffix: "K+",
     description: "Since launch",
   },
   {
     label: "Uptime",
-    value: 99.9,
+    value: 99,
     suffix: "%",
     description: "Reliable platform",
   },
@@ -79,7 +78,9 @@ export default function SocialProof() {
               <div className="text-lg font-bold text-primary mb-1">
                 {stat.label}
               </div>
-              <p className="text-white/40 text-sm">{stat.description}</p>
+              {stat.description && (
+                <p className="text-white/40 text-sm">{stat.description}</p>
+              )}
             </div>
           ))}
         </div>
