@@ -1,12 +1,14 @@
-import { ChefHat } from "lucide-react";
-
-// Same mark as the kitchen portal (admin.dineo.co.in): a white chef hat on
-// an orange tile. The favicon in src/app/icon.png is that portal's favicon.
+// Dineo's mark: the white "D" on an orange tile. Same drawing as the customer
+// app's public/icon.svg, which is also this site's favicon (src/app/icon.svg).
 export function LogoMark({ className = "w-8 h-8" }: { className?: string }) {
   return (
-    <div className={`${className} bg-primary rounded-lg flex items-center justify-center text-white shrink-0`}>
-      <ChefHat className="w-[60%] h-[60%]" strokeWidth={2.25} />
-    </div>
+    <svg viewBox="0 0 32 32" className={`${className} shrink-0`} aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="#d97706" />
+      <path
+        d="M10 8h6c3.5 0 6 2.5 6 6s-2.5 6-6 6h-6v-12z m4 8h2c1.5 0 2.5-1 2.5-2s-1-2.5-2.5-2.5h-2v4.5z"
+        fill="white"
+      />
+    </svg>
   );
 }
 
