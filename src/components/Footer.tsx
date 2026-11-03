@@ -1,81 +1,93 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import Logo from "./Logo";
+import { LogoMark } from "./Logo";
+
+const LEGAL = "https://app.dineo.co.in/legal";
+
+const columns = [
+  {
+    title: "Product",
+    links: [
+      { name: "How it works", href: "#how-it-works" },
+      { name: "Features", href: "#features" },
+      { name: "Live demo", href: "#demo" },
+      { name: "Pricing", href: "#pricing" },
+    ],
+  },
+  {
+    title: "For your staff",
+    links: [{ name: "Kitchen login", href: "https://admin.dineo.co.in/login" }],
+  },
+  {
+    title: "Legal",
+    links: [
+      { name: "Privacy", href: `${LEGAL}/privacy` },
+      { name: "Terms", href: `${LEGAL}/terms` },
+      { name: "Refunds", href: `${LEGAL}/refunds` },
+      { name: "Cookies", href: `${LEGAL}/cookies` },
+    ],
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-text-primary text-white py-20 w-full border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          <div className="space-y-6">
-            <Link href="/" className="flex items-center gap-2 group">
-              <Logo />
-            </Link>
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
-              Dineo is a QR-first restaurant ordering and POS platform that helps restaurants 
-              manage orders, tables, billing, and payments from a single dashboard.
+    <footer className="bg-night text-ground w-full pt-20 md:pt-28 pb-10">
+      <div className="frame">
+        {/* The mark, built large: the Dineo tile beside the name at full width. */}
+        <div data-reveal className="flex items-end gap-[3vw]" aria-hidden="true">
+          <LogoMark className="w-[17vw] h-[17vw] max-w-[260px] max-h-[260px]" />
+          <span className="font-semibold leading-[0.78] tracking-[-0.06em] text-[min(25vw,400px)] -mb-[0.06em]">
+            Dineo
+          </span>
+        </div>
+
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-12">
+          {columns.map((c) => (
+            <div key={c.title} className="md:col-span-2">
+              <h3 className="text-small text-night-muted">{c.title}</h3>
+              <ul className="mt-4 space-y-2.5">
+                {c.links.map((l) => (
+                  <li key={l.name}>
+                    <Link href={l.href} className="text-body text-ground hover:text-sun transition-colors">
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="col-span-2 md:col-span-4 md:col-start-9">
+            <h3 className="text-small text-night-muted">Talk to us</h3>
+            <p className="mt-4 text-body">
+              <a href="mailto:dineo.india@gmail.com" className="hover:text-sun transition-colors">dineo.india@gmail.com</a>
             </p>
-            <div className="flex gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-bold mb-8">Product</h4>
-            <ul className="space-y-4">
-              {["Features", "How it Works", "Kitchen View", "Customer View"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-white/40 hover:text-primary transition-colors text-sm font-medium">{link}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-bold mb-8">Company</h4>
-            <ul className="space-y-4">
-              {["About Us", "Contact", "Careers", "Privacy Policy"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-white/40 hover:text-primary transition-colors text-sm font-medium">{link}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-bold mb-8">Subscribe to Newsletter</h4>
-            <p className="text-white/40 text-sm mb-6 font-medium">Get the latest restaurant tech updates.</p>
-            <div className="flex gap-2">
-              <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 flex-1" />
-              <button className="bg-primary text-white p-3 rounded-xl hover:bg-primary-dark transition-all">
-                <Check size={20} />
-              </button>
-            </div>
+            <p className="mt-2.5 text-body">
+              <a href="tel:+917453031663" className="hover:text-sun transition-colors">+91 74530 31663</a>
+            </p>
+            <p className="mt-2.5 text-body text-night-muted">Delhi-NCR, India</p>
           </div>
         </div>
 
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-white/20 text-xs font-bold uppercase tracking-widest">
-            © 2026 Dineo Technologies Pvt Ltd. All rights reserved.
-          </p>
-          <div className="flex gap-8">
-            <Link href="#" className="text-white/20 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Terms of Service</Link>
-            <Link href="#" className="text-white/20 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Privacy Policy</Link>
+        <div className="mt-20 flex flex-wrap items-center justify-between gap-6">
+          <div className="max-w-[60rem] space-y-2">
+            <p className="text-small text-night-muted">© 2026 Dineo. QR ordering for restaurants in India.</p>
+            <p className="text-small text-night-muted">
+              Photos and footage via Wikimedia Commons:{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://commons.wikimedia.org/wiki/File:Masala_dosa_01.jpg">Masala dosa</a> by Marajozkee,{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>;{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://commons.wikimedia.org/wiki/File:Darjeeling,_India,_Indian_Thali_meal.jpg">Thali</a> by Vyacheslav Argenberg,{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>;{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://commons.wikimedia.org/wiki/File:A_Crispy_DOSA.webm">A Crispy Dosa</a> by The open draft,{" "}
+              <a className="underline underline-offset-2 hover:text-ground" href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>.
+            </p>
           </div>
+          <Link
+            href="#contact"
+            className="press bg-tile text-ink hover:bg-sun px-5 py-2.5 rounded-tile text-body font-semibold"
+          >
+            Book a free demo
+          </Link>
         </div>
       </div>
     </footer>
-  );
-}
-
-function Check({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
   );
 }

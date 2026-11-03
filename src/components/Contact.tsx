@@ -1,133 +1,88 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, Phone, Mail, MapPin, Check } from "lucide-react";
 
+const EMAIL = "dineo.india@gmail.com";
+const PHONE = "+91 74530 31663";
+
+// There is no form backend, so the form hands its details to the visitor's
+// email app instead of pretending to send them.
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [opened, setOpened] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowToast(true);
-      (e.target as HTMLFormElement).reset();
-      setTimeout(() => setShowToast(false), 3000);
-    }, 1500);
+    const f = new FormData(e.currentTarget);
+    const name = String(f.get("name") || "").trim();
+    const place = String(f.get("restaurant") || "").trim();
+    const reach = String(f.get("reach") || "").trim();
+    const note = String(f.get("message") || "").trim();
+    const subject = `Demo request: ${place || "my restaurant"}`;
+    const body = [
+      `Name: ${name}`,
+      `Restaurant: ${place}`,
+      `Phone or email: ${reach}`,
+      note && `\n${note}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setOpened(true);
   };
 
+  const field =
+    "w-full h-[54px] rounded-[10px] bg-[#f3c88a] px-4 text-body text-ink placeholder:text-ink/70 focus:outline-none focus:bg-[#f8dcb3]";
+
   return (
-    <section id="contact" className="py-24 bg-background w-full relative">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <div className="max-w-2xl">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
-            >
-              Get started with <span className="text-primary">Dineo</span> today.
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-xl text-text-secondary mb-12"
-            >
-              Join 10+ restaurants that are already using Dineo to provide a
-              premium ordering experience.
-            </motion.p>
+    <section id="contact" className="w-full py-28 md:py-40">
+      <div className="frame grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-14 items-start">
+        <div className="lg:col-span-5">
+          <h2 data-reveal="rise" className="text-head font-semibold text-balance">Let&apos;s set up your place.</h2>
+          <p data-reveal className="mt-6 text-body text-ink max-w-[34ch]">
+            Join 10+ restaurants already taking orders with Dineo. Tell us about yours
+            and we&apos;ll show you how it works on your own menu.
+          </p>
 
-            <div className="space-y-8">
-              {[
-                { icon: Phone, label: "Call Us", val: "+91 7453031663" },
-                { icon: Mail, label: "Email", val: "dineo.india@gmail.com" },
-                { icon: MapPin, label: "Visit Us", val: "Delhi-NCR, India" },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm border border-border">
-                    <item.icon size={20} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-text-secondary uppercase">{item.label}</p>
-                    <p className="text-lg font-bold text-text-primary">{item.val}</p>
-                  </div>
-                </div>
-              ))}
+          <dl data-reveal className="mt-12 space-y-6">
+            <div>
+              <dt className="text-small text-muted">Call</dt>
+              <dd className="text-lead font-semibold">
+                <a href={`tel:${PHONE.replace(/\s/g, "")}`} className="hover:text-action transition-colors">{PHONE}</a>
+              </dd>
             </div>
-          </div>
+            <div>
+              <dt className="text-small text-muted">Email</dt>
+              <dd className="text-lead font-semibold">
+                <a href={`mailto:${EMAIL}`} className="hover:text-action transition-colors">{EMAIL}</a>
+              </dd>
+            </div>
+            <div>
+              <dt className="text-small text-muted">Based in</dt>
+              <dd className="text-lead font-semibold">Delhi-NCR, India</dd>
+            </div>
+          </dl>
+        </div>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-white p-8 md:p-12 rounded-[2rem] border border-border shadow-premium relative"
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-text-secondary">First Name</label>
-                  <input required type="text" className="w-full px-6 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-text-secondary">Last Name</label>
-                  <input required type="text" className="w-full px-6 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-text-secondary">Restaurant Name</label>
-                <input required type="text" className="w-full px-6 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-text-secondary">Email Address</label>
-                <input required type="email" className="w-full px-6 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-text-secondary">Message</label>
-                <textarea rows={4} className="w-full px-6 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"></textarea>
-              </div>
-              <button 
-                disabled={isSubmitting}
-                className="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-primary/20 hover:bg-primary-dark flex items-center justify-center gap-3"
-              >
-                {isSubmitting ? (
-                  <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
-                    <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full" />
-                  </motion.div>
-                ) : (
-                  <>
-                    Send Message
-                    <Send size={20} />
-                  </>
-                )}
-              </button>
-            </form>
-
-            {/* Success Toast */}
-            <AnimatePresence>
-              {showToast && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-success text-white px-8 py-3 rounded-full font-bold shadow-xl flex items-center gap-2"
-                >
-                  <div className="w-5 h-5 bg-white text-success rounded-full flex items-center justify-center">
-                    <Check size={12} strokeWidth={4} />
-                  </div>
-                  Message Sent Successfully!
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+        <div data-reveal className="lg:col-span-7 bg-tile rounded-tile p-6 md:p-12">
+          <form onSubmit={handleSubmit} className="space-y-2.5">
+            <p className="text-lead font-semibold text-ink mb-6">Book a free demo or trial</p>
+            <label className="sr-only" htmlFor="c-name">Your name</label>
+            <input id="c-name" name="name" required autoComplete="name" placeholder="Your name" className={field} />
+            <label className="sr-only" htmlFor="c-restaurant">Restaurant name</label>
+            <input id="c-restaurant" name="restaurant" required autoComplete="organization" placeholder="Restaurant or canteen name" className={field} />
+            <label className="sr-only" htmlFor="c-reach">Phone or email</label>
+            <input id="c-reach" name="reach" required placeholder="Phone or email" className={field} />
+            <label className="sr-only" htmlFor="c-message">Message</label>
+            <textarea id="c-message" name="message" rows={3} placeholder="Anything we should know? (optional)" className={`${field} h-auto py-4 resize-none`} />
+            <button type="submit" className="press w-full h-[58px] rounded-[10px] bg-ink hover:bg-[#3a2a20] text-ground text-body font-semibold">
+              Send my request
+            </button>
+            <p className="pt-2 text-small text-ink" aria-live="polite">
+              {opened
+                ? `Your email app should be open with this filled in. If it isn't, write to ${EMAIL}.`
+                : "This opens your email app with the details filled in."}
+            </p>
+          </form>
         </div>
       </div>
     </section>

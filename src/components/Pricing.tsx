@@ -1,134 +1,131 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check } from "lucide-react";
+import Link from "next/link";
 
-// One plan for now; the Pro tier was removed. Yearly is ₹19,999 against
-// ₹23,988 for twelve monthly payments.
+// One plan. Yearly is ₹19,999 against ₹23,988 for twelve monthly payments.
 const plan = {
-  name: "Standard",
-  tag: "Best for cafes & small restaurants",
-  monthlyPrice: "₹1,999",
-  yearlyPrice: "₹19,999",
-  yearlySubtext: "₹1,667/month · Save ₹3,989",
+  monthly: 1999,
+  yearly: 19999,
   features: [
-    "QR Ordering (unlimited scans)",
-    "Digital Menu (up to 3 menus)",
-    "Chef Dashboard (real-time)",
-    "Table Management (up to 20 tables)",
-    "Auto Billing with GST",
-    "Razorpay Payments (UPI, Cards, Net Banking)",
-    "Pay Later (Cash) option",
-    "Offers & Discounts (item + bill level)",
-    "Thermal Printer Support",
-    "Basic Analytics",
-    "Customer OTP Verification",
+    "QR ordering, unlimited scans",
+    "Digital menu, up to 3 menus",
+    "Kitchen screen in real time",
+    "Table management, up to 20 tables",
+    "Automatic bills with GST",
+    "Razorpay payments: UPI, cards, net banking",
+    "Pay later in cash",
+    "Offers on a dish or the whole bill",
+    "Thermal printer support",
+    "Basic analytics",
     "Up to 2 staff accounts",
-    "Email support (48hr response)",
+    "Email support, reply within 48 hours",
   ],
-  cta: "Start Free Trial",
 };
+
+const inr = (n: number) => n.toLocaleString("en-IN");
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
+  const [perDay, setPerDay] = useState(80);
+
+  // Honest per-order cost: the price over the orders it covers.
+  const perOrder = isYearly ? plan.yearly / (perDay * 365) : plan.monthly / (perDay * 30);
 
   return (
-    <section id="pricing" className="py-24 bg-white w-full">
-      <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
-          >
-            Simple, transparent pricing
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-text-secondary mb-12"
-          >
-            One flat price per outlet. No per-user fees. No surprises.
-          </motion.p>
+    <section id="pricing" className="w-full bg-white py-28 md:py-40">
+      <div className="frame grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-14">
+        <div className="lg:col-span-5 lg:row-start-1">
+          <h2 data-reveal="rise" className="text-head font-semibold text-balance">One plan, one price.</h2>
+          <p data-reveal className="mt-6 text-body text-ink max-w-[36ch]">
+            One flat price per outlet. No per-user fees and no surprises. Pay monthly,
+            or pay for the year and get about two months free.
+          </p>
 
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center gap-4">
-            <span className={`text-sm font-bold ${!isYearly ? "text-text-primary" : "text-text-secondary"}`}>Monthly</span>
-            <button
-              onClick={() => setIsYearly(!isYearly)}
-              className="w-14 h-8 bg-primary/10 rounded-full relative p-1 transition-colors duration-300"
-            >
-              <motion.div
-                animate={{ x: isYearly ? 24 : 0 }}
-                className="w-6 h-6 bg-primary rounded-full shadow-sm"
-              />
-            </button>
-            <span className={`text-sm font-bold ${isYearly ? "text-text-primary" : "text-text-secondary"}`}>Yearly</span>
-          </div>
-
-          <AnimatePresence>
-            {isYearly && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: "auto" }}
-                exit={{ opacity: 0, y: 10, height: 0 }}
-                className="mt-8 p-4 bg-primary-light border border-primary/20 rounded-2xl inline-block"
+          <div data-reveal className="mt-10 inline-flex rounded-tile bg-ground p-1.5" role="group" aria-label="Billing period">
+            {[
+              { label: "Monthly", yearly: false },
+              { label: "Yearly", yearly: true },
+            ].map((o) => (
+              <button
+                key={o.label}
+                onClick={() => setIsYearly(o.yearly)}
+                aria-pressed={isYearly === o.yearly}
+                className={`press rounded-[10px] px-6 py-3 text-body font-semibold ${
+                  isYearly === o.yearly ? "bg-ink text-ground" : "text-ink hover:bg-surface"
+                }`}
               >
-                <p className="text-primary-dark font-bold text-sm">
-                  Pay yearly and save ₹3,989, about 2 months free.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          whileHover={{ y: -8, transition: { duration: 0.2 } }}
-          className="relative p-8 md:p-12 rounded-[2rem] border bg-primary border-primary text-white shadow-premium flex flex-col max-w-lg mx-auto"
-        >
-          <div className="mb-10">
-            <span className="px-4 py-1.5 rounded-full text-xs font-bold mb-6 inline-block bg-white/20 text-white">
-              {plan.tag}
-            </span>
-            <h3 className="text-3xl font-black mb-4">{plan.name}</h3>
-            <div className="flex items-baseline gap-2">
-              <motion.span
-                key={isYearly ? "yearly" : "monthly"}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-5xl font-black tracking-tight"
-              >
-                {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
-              </motion.span>
-              <span className="text-sm font-bold opacity-60">/{isYearly ? "year" : "month"}</span>
-            </div>
-            {isYearly && (
-              <p className="text-sm font-bold mt-2 text-white/80">{plan.yearlySubtext}</p>
-            )}
-          </div>
-
-          <div className="space-y-4 mb-10 flex-1">
-            {plan.features.map((feature) => (
-              <div key={feature} className="flex items-start gap-3">
-                <div className="mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-white/20 text-white">
-                  <Check size={12} strokeWidth={3} />
-                </div>
-                <span className="text-sm font-medium leading-tight">{feature}</span>
-              </div>
+                {o.label}
+              </button>
             ))}
           </div>
 
-          <button className="w-full py-5 rounded-2xl font-black text-lg transition-all bg-white text-primary hover:bg-white/90 shadow-xl shadow-black/10">
-            {plan.cta}
-          </button>
-        </motion.div>
+        </div>
+
+        <div className="lg:col-span-7 lg:col-start-6 lg:row-start-1 lg:row-span-2">
+          <div data-reveal className="relative inline-block pr-[30%]">
+            <p className="font-semibold leading-[0.85] tracking-[-0.05em] tabular text-[clamp(5.5rem,2rem+12vw,15rem)]">
+              <span className="text-[0.5em] align-[0.62em] mr-[0.04em]">₹</span>
+              {inr(isYearly ? plan.yearly : plan.monthly)}
+            </p>
+            {/* A thali in the Dineo tile's shape, laid over the figure. */}
+            <img
+              src="/media/thali.jpg"
+              alt="A steel thali with dal, curries, rice and chapati"
+              width={1000}
+              height={667}
+              loading="lazy"
+              className="absolute motif object-cover w-[24%] aspect-square right-0 top-[-8%]"
+            />
+          </div>
+          <p data-reveal className="mt-4 text-lead text-ink">
+            {isYearly ? "a year · ₹1,667 a month, you save ₹3,989" : "a month, per outlet"}
+          </p>
+
+          <ul data-reveal className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3.5 max-w-[46rem]">
+            {plan.features.map((f) => (
+              <li key={f} className="flex items-baseline gap-3 text-body text-ink">
+                <span aria-hidden="true" className="motif bg-tile w-2.5 h-2.5 shrink-0 translate-y-[-0.1em]" />
+                {f}
+              </li>
+            ))}
+          </ul>
+
+        </div>
+        <div data-reveal className="lg:col-span-5 lg:row-start-2 max-w-[26rem]">
+          <label htmlFor="orders-per-day" className="flex justify-between text-body font-semibold">
+            <span>Orders a day</span>
+            <span className="tabular">{perDay}</span>
+          </label>
+          <input
+            id="orders-per-day"
+            type="range"
+            min={10}
+            max={400}
+            step={10}
+            value={perDay}
+            onChange={(e) => setPerDay(Number(e.target.value))}
+            className="mt-4 w-full h-11 accent-[#b45309] cursor-pointer"
+          />
+          <p className="mt-3 text-lead text-ink" aria-live="polite">
+            That&apos;s about{" "}
+            <span className="font-semibold tabular">₹{perOrder < 1 ? perOrder.toFixed(2) : perOrder.toFixed(1)}</span>{" "}
+            an order.
+          </p>
+          <p className="mt-2 text-body text-muted">
+            ₹{inr(isYearly ? plan.yearly : plan.monthly)} spread over{" "}
+            {inr(perDay * (isYearly ? 365 : 30))} orders a {isYearly ? "year" : "month"}.
+          </p>
+        </div>
+        <div className="lg:col-span-7 lg:col-start-6 lg:row-start-3">
+          <Link
+            data-reveal
+            href="#contact"
+            className="press inline-block bg-action hover:bg-action-dark text-white px-8 py-4 rounded-tile text-body font-semibold"
+          >
+            Start your free trial
+          </Link>
+        </div>
       </div>
     </section>
   );
