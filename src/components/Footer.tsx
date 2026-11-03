@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
@@ -8,10 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                D
-              </div>
-              <span className="text-2xl font-bold text-primary">Dineo</span>
+              <Logo />
             </Link>
             <p className="text-white/40 text-sm leading-relaxed max-w-xs">
               Dineo is a QR-first restaurant ordering and POS platform that helps restaurants 

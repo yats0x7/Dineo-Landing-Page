@@ -41,7 +41,7 @@ export default function Contact() {
               transition={{ delay: 0.1 }}
               className="text-xl text-text-secondary mb-12"
             >
-              Join 500+ restaurants that are already using Dineo to provide a
+              Join 10+ restaurants that are already using Dineo to provide a
               premium ordering experience.
             </motion.p>
 

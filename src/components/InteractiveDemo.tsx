@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, CheckCircle2, Clock, ChefHat, Check, QrCode } from "lucide-react";
+import { LogoMark } from "./Logo";
 
 type Tab = "customer" | "kitchen";
 type CustomerStep = "A" | "B" | "C";
@@ -215,7 +216,7 @@ export default function InteractiveDemo() {
                     {/* Kitchen Dashboard Top Nav */}
                     <div className="bg-zinc-50 border-b border-border p-4 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">D</div>
+                        <LogoMark />
                         <span className="font-bold text-text-primary">Kitchen Dashboard</span>
                       </div>
                       <div className="flex gap-4">

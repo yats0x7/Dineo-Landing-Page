@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Logo from "./Logo";
 
 const navLinks = [
   { name: "Features", href: "#features" },
@@ -35,10 +36,7 @@ export default function Navbar() {
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
-            D
-          </div>
-          <span className="text-2xl font-bold text-primary">Dineo</span>
+          <Logo />
         </Link>
 
         {/* Center Links - Desktop */}
