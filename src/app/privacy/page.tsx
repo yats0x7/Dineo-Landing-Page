@@ -58,8 +58,7 @@ export default function PrivacyPage() {
           <div className="mt-10 space-y-4 text-body text-muted">
             <p>
               Dineo is QR ordering software for restaurants. It is run by{" "}
-              <span className="text-ink">Yatharth Katta, trading as Dineo</span>, from 20/4, Jilal Street, Mandi
-              Chowk, Moradabad, Uttar Pradesh 244001, India.
+              <span className="text-ink">Yatharth Katta, trading as Dineo</span>, based in Delhi-NCR, India.
             </p>
             <p>
               This policy covers the ordering page diners open from a table&apos;s QR code (app.dineo.co.in), the
