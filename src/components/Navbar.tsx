@@ -6,10 +6,10 @@ import Link from "next/link";
 import Logo from "./Logo";
 
 const navLinks = [
-  { name: "How it works", href: "#how-it-works" },
-  { name: "Features", href: "#features" },
-  { name: "Live demo", href: "#demo" },
-  { name: "Pricing", href: "#pricing" },
+  { name: "How it works", href: "/#how-it-works" },
+  { name: "Features", href: "/#features" },
+  { name: "Live demo", href: "/#demo" },
+  { name: "Pricing", href: "/#pricing" },
 ];
 
 export default function Navbar() {
@@ -45,7 +45,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="#contact"
+            href="/#contact"
             className="press bg-ink text-ground hover:bg-action px-5 py-2.5 rounded-tile text-body font-semibold"
           >
             Book a free demo
@@ -64,7 +64,7 @@ export default function Navbar() {
 
       {isMobileMenuOpen && (
         <div className="lg:hidden frame flex flex-col gap-1 pt-4 pb-6">
-          {[...navLinks, { name: "Contact", href: "#contact" }].map((link) => (
+          {[...navLinks, { name: "Contact", href: "/#contact" }].map((link) => (
             <Link
               key={link.name}
               href={link.href}
@@ -75,7 +75,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="#contact"
+            href="/#contact"
             onClick={() => setIsMobileMenuOpen(false)}
             className="press mt-3 bg-action text-white px-6 py-4 rounded-tile text-body font-semibold text-center"
           >
