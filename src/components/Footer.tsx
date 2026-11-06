@@ -1,26 +1,19 @@
 import Link from "next/link";
 import { LogoMark } from "./Logo";
 
-const LEGAL = "https://app.dineo.co.in/legal";
-
 const columns = [
   {
     title: "Product",
     links: [
-      { name: "How it works", href: "#how-it-works" },
-      { name: "Features", href: "#features" },
-      { name: "Live demo", href: "#demo" },
-      { name: "Pricing", href: "#pricing" },
+      { name: "How it works", href: "/#how-it-works" },
+      { name: "Features", href: "/#features" },
+      { name: "Live demo", href: "/#demo" },
+      { name: "Pricing", href: "/#pricing" },
     ],
   },
   {
     title: "Legal",
-    links: [
-      { name: "Privacy", href: `${LEGAL}/privacy` },
-      { name: "Terms", href: `${LEGAL}/terms` },
-      { name: "Refunds", href: `${LEGAL}/refunds` },
-      { name: "Cookies", href: `${LEGAL}/cookies` },
-    ],
+    links: [{ name: "Privacy", href: "/privacy" }],
   },
 ];
 
@@ -80,7 +73,7 @@ export default function Footer() {
             </p>
           </div>
           <Link
-            href="#contact"
+            href="/#contact"
             className="press bg-tile text-ink hover:bg-sun px-5 py-2.5 rounded-tile text-body font-semibold"
           >
             Book a free demo
